@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const pino = require('express-pino-logger')();
+const http = require('http');
+const url = require('url');
 
 const app = express();
 app.use(bodyParser.json());
@@ -13,11 +15,31 @@ app.get('/api/greeting', (req, res) => {
     res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
 });
 
-app.get('/api/webscrap',
+
+
+app.get('/api/getpageresult',
     async (req, res) => {
         try {
-            res.json({
-                result: 'webscrap'
+            console.log('/api/getpageresult');
+            const https = require('https');
+
+            https.get('https://www.naver.com', (resp) => {
+                let data = '';
+
+                // A chunk of data has been recieved.
+                resp.on('data', (chunk) => {
+                    data += chunk;
+                });
+
+                // The whole response has been received. Print out the result.
+                resp.on('end', () => {
+                    res.json({
+                        data
+                    });
+                });
+
+            }).on("error", (err) => {
+                console.log("Error: " + err.message);
             });
         } catch (error) {
             res.status(500).send({ error });
