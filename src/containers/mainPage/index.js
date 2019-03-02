@@ -7,6 +7,10 @@ class MainPage extends React.Component{
         console.log('getPageResult');
         this.props.getPageResult('https://www.naver.com');
     }
+    getPageResultD = () => {
+        console.log('getPageResult');
+        this.props.getPageResult('https://www.daum.net');
+    }
 
     createMarkup = () => {
         return {__html: this.props.pageResult};
@@ -15,11 +19,15 @@ class MainPage extends React.Component{
         console.log(this.props);
         return(
             <div>
-                <button onClick={this.getPageResult}>
-                    GetUrl
-                </button>
+
                 <div dangerouslySetInnerHTML={this.createMarkup()}>
                 </div>
+                <button onClick={this.getPageResult}>
+                    GetUrlNaver
+                </button>
+                <button onClick={this.getPageResultD}>
+                    GetUrlDaum
+                </button>
             </div>
         );
     }

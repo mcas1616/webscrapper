@@ -20,10 +20,9 @@ app.get('/api/greeting', (req, res) => {
 app.get('/api/getpageresult',
     async (req, res) => {
         try {
-            console.log('/api/getpageresult');
             const https = require('https');
 
-            https.get('https://www.naver.com', (resp) => {
+            https.get(req.query.url, (resp) => {
                 let data = '';
 
                 // A chunk of data has been recieved.
