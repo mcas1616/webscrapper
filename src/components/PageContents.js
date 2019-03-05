@@ -41,6 +41,10 @@ class PageContents extends React.Component{
             event.target.style.color = '';
         }
     }
+    onClick = (event) => {
+        console.log('onClick()');
+        event.preventDefault()
+    }
 
     render() {
         const { classes } = this.props;
@@ -51,7 +55,7 @@ class PageContents extends React.Component{
                     <Grid container spacing={24}>
                         <Grid item xs={8}>
                             <Paper className={classes.paper}>
-                                {this.props.pageResult == '' ? '' : <div className={classes.pageContent} onMouseOver={this.onMouseHover} onMouseOut={this.onMouseHover} dangerouslySetInnerHTML={this.createMarkup(this.props.pageResult)}></div>}
+                                {this.props.pageResult == '' ? '' : <div className={classes.pageContent} onClick={this.onClick} onMouseOver={this.onMouseHover} onMouseOut={this.onMouseHover} dangerouslySetInnerHTML={this.createMarkup(this.props.pageResult)}></div>}
                             </Paper>
                         </Grid>
                     </Grid>
