@@ -1,33 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
+import InputUrl from "../../components/InputUrl";
 
 class MainPage extends React.Component{
-    getPageResult = () => {
-        console.log('getPageResult');
-        this.props.getPageResult('https://www.naver.com');
-    }
-    getPageResultD = () => {
-        console.log('getPageResult');
-        this.props.getPageResult('https://www.daum.net');
+    constructor(props){
+        super(props);
     }
 
     createMarkup = () => {
         return {__html: this.props.pageResult};
     }
+
     render() {
         console.log(this.props);
         return(
             <div>
-
+                <InputUrl getPageResult={this.props.getPageResult}/>
                 <div dangerouslySetInnerHTML={this.createMarkup()}>
                 </div>
-                <button onClick={this.getPageResult}>
-                    GetUrlNaver
-                </button>
-                <button onClick={this.getPageResultD}>
-                    GetUrlDaum
-                </button>
             </div>
         );
     }
