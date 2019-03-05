@@ -31,17 +31,27 @@ class PageContents extends React.Component{
     createMarkup = (pageResult) => {
         return {__html: pageResult};
     }
+    onMouseHover = (event) => {
+        if (event.type == 'mouseover') {
+            event.target.style.background = 'pink';
+            event.target.style.color = 'blue';
+        }
+        if (event.type == 'mouseout') {
+            event.target.style.background = '';
+            event.target.style.color = '';
+        }
+    }
 
     render() {
         const { classes } = this.props;
-        console.log('PageContents render()', this.props);
+        console.log('PageContents render()', this.props.pageResult);
         return (
             <div>
                 <div className={classes.root}>
                     <Grid container spacing={24}>
                         <Grid item xs={8}>
                             <Paper className={classes.paper}>
-                                {this.props.pageResult == '' ? '' : <div className={classes.pageContent} dangerouslySetInnerHTML={this.createMarkup(this.props.pageResult)}></div>}
+                                {this.props.pageResult == '' ? '' : <div className={classes.pageContent} onMouseOver={this.onMouseHover} onMouseOut={this.onMouseHover} dangerouslySetInnerHTML={this.createMarkup(this.props.pageResult)}></div>}
                             </Paper>
                         </Grid>
                     </Grid>
