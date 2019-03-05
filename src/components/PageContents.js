@@ -23,6 +23,7 @@ const styles = theme => ({
     },
 });
 
+
 class PageContents extends React.Component{
     constructor(props){
         super(props);
@@ -43,8 +44,46 @@ class PageContents extends React.Component{
     }
     onClick = (event) => {
         console.log('onClick()');
-        event.preventDefault()
+        event.preventDefault();
+        alert(this.getElementXPath(event.target));
     }
+
+
+    getElementXPath = (element) => {
+        if (element && element.id)
+            return '//*[@id="' + element.id + '"]';
+        else
+            return this.getElementTreeXPath(element);
+    };
+
+    getElementTreeXPath = (element) => {
+        const paths = [];
+
+        // Use nodeName (instead of localName) so namespace prefix is included (if any).
+        for (; element && element.nodeType == 1; element = element.parentNode)  {
+            let index = 0;
+            // EXTRA TEST FOR ELEMENT.ID
+            if (element && element.id) {
+                paths.splice(0, 0, '/*[@id="' + element.id + '"]');
+                break;
+            }
+
+            for (let sibling = element.previousSibling; sibling; sibling = sibling.previousSibling) {
+                // Ignore document type declaration.
+                if (sibling.nodeType == Node.DOCUMENT_TYPE_NODE)
+                continue;
+
+                if (sibling.nodeName == element.nodeName)
+                    ++index;
+            }
+
+            const tagName = element.nodeName.toLowerCase();
+            const pathIndex = (index ? "[" + (index + 1) + "]" : "");
+            paths.splice(0, 0, tagName + pathIndex);
+        }
+
+        return paths.length ? "/" + paths.join("/") : null;
+    };
 
     render() {
         const { classes } = this.props;
